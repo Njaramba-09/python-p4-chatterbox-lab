@@ -14,6 +14,9 @@ migrate = Migrate(app, db)
 
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 @app.route('/messages', methods=['GET', 'POST'])
 def messages():
     if request.method == 'GET':
