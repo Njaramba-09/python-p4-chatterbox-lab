@@ -16,6 +16,17 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+    # Add seed data if no messages exist
+    if Message.query.count() == 0:
+        messages = [
+            Message(body="Hello world!", username="Alice"),
+            Message(body="How are you?", username="Bob"),
+            Message(body="Great day today!", username="Charlie"),
+            Message(body="Working on Flask", username="Duane"),
+            Message(body="Learning SQLAlchemy", username="Eve")
+        ]
+        db.session.add_all(messages)
+        db.session.commit()
 
 @app.route('/messages', methods=['GET', 'POST'])
 def messages():
